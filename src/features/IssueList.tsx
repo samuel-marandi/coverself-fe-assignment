@@ -18,11 +18,7 @@ const IssuesList: React.FC = () => {
         (state: RootState) => state.paginationReducer
     );
 
-    const {
-        data: issues,
-        error,
-        isLoading,
-    } = useGetAllIssuesQuery({
+    const { data, error, isLoading } = useGetAllIssuesQuery({
         currentPage,
         itemsPerPage,
         sortBy,
@@ -37,26 +33,20 @@ const IssuesList: React.FC = () => {
         dispatch(setItemsPerPage(items));
     };
 
-    const handleSortByChange = (field: string) => {
-        dispatch(setSortBy(field));
-    };
-
-    const handleSortOrderChange = (order: 'asc' | 'desc') => {
-        dispatch(setSortOrder(order));
-    };
-
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>Error: {error.message}</div>;
 
     return (
         <div>
-            <ReactTable
-                issues={issues}
-                currentPage={currentPage}
-                itemsPerPage={itemsPerPage}
-                onPageChange={handlePageChange}
-                onItemsPerPageChange={handleItemsPerPageChange}
-            />
+            {data && (
+                <ReactTable
+                    data={data}
+                    currentPage={currentPage}
+                    itemsPerPage={itemsPerPage}
+                    onPageChange={handlePageChange}
+                    onItemsPerPageChange={handleItemsPerPageChange}
+                />
+            )}
         </div>
     );
 };

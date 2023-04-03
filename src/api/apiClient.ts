@@ -8,6 +8,20 @@ interface GetIssuesParams {
     sortOrder: 'asc' | 'desc';
 }
 
+// const customFetchBaseQuery = (arg: Parameters<typeof fetchBaseQuery>[0]) =>
+//     fetchBaseQuery(arg).then(async response => {
+//         const totalHeader = response.headers.get('X-Total-Count');
+//         const totalCount = totalHeader ? parseInt(totalHeader, 10) : undefined;
+
+//         if (response.ok && totalCount !== undefined) {
+//             const data = await response.json();
+
+//             return { ...response, data, totalCount };
+//         }
+
+//         return response;
+//     });
+
 // Define the apiClient using RTK Query's createApi
 export const apiClient = createApi({
     reducerPath: 'api',
@@ -30,6 +44,14 @@ export const apiClient = createApi({
                     _order: params.sortOrder,
                 },
             }),
+            transformResponse: (apiResponse, meta) => {
+                return {
+                    data: apiResponse,
+                    totalCount: Number(
+                        meta?.response?.headers.get('X-Total-Count')
+                    ),
+                };
+            },
         }),
     }),
 });
