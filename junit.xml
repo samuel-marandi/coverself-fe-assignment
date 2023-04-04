@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="11" failures="0" errors="0" time="27.535">
+  <testsuite name="useGetAllIssuesQuery" errors="0" failures="0" skipped="0" timestamp="2023-04-04T18:57:55" time="18.246" tests="1">
+    <testcase classname="useGetAllIssuesQuery returns mocked data" name="useGetAllIssuesQuery returns mocked data" time="0.009">
+    </testcase>
+  </testsuite>
+  <testsuite name="PageButton" errors="0" failures="0" skipped="0" timestamp="2023-04-04T18:57:55" time="23.356" tests="2">
+    <testcase classname="PageButton displays the correct number of page buttons" name="PageButton displays the correct number of page buttons" time="0.148">
+    </testcase>
+    <testcase classname="PageButton calls the handlePageChange function when a page button is clicked" name="PageButton calls the handlePageChange function when a page button is clicked" time="0.047">
+    </testcase>
+  </testsuite>
+  <testsuite name="ReactTable" errors="0" failures="0" skipped="0" timestamp="2023-04-04T18:57:55" time="24.052" tests="2">
+    <testcase classname="ReactTable renders table headers" name="ReactTable renders table headers" time="0.292">
+    </testcase>
+    <testcase classname="ReactTable renders table data" name="ReactTable renders table data" time="0.088">
+    </testcase>
+  </testsuite>
+  <testsuite name="RowCountSelector" errors="0" failures="0" skipped="0" timestamp="2023-04-04T18:57:55" time="24.018" tests="3">
+    <testcase classname="RowCountSelector should render the component" name="RowCountSelector should render the component" time="0.303">
+    </testcase>
+    <testcase classname="RowCountSelector should show the menu when clicked" name="RowCountSelector should show the menu when clicked" time="0.501">
+    </testcase>
+    <testcase classname="RowCountSelector should call the handleItemsPerPageChange function when an option is selected" name="RowCountSelector should call the handleItemsPerPageChange function when an option is selected" time="0.159">
+    </testcase>
+  </testsuite>
+  <testsuite name="IssuesList component" errors="0" failures="0" skipped="0" timestamp="2023-04-04T18:57:55" time="24.757" tests="3">
+    <testcase classname="IssuesList component displays a loading spinner when the data is loading" name="IssuesList component displays a loading spinner when the data is loading" time="0.061">
+    </testcase>
+    <testcase classname="IssuesList component displays an error message when the API call fails" name="IssuesList component displays an error message when the API call fails" time="0.007">
+    </testcase>
+    <testcase classname="IssuesList component displays the issues list when the data is loaded" name="IssuesList component displays the issues list when the data is loaded" time="0.099">
+    </testcase>
+  </testsuite>
+</testsuites>

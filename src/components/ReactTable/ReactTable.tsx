@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
     Box,
     Badge,
@@ -39,7 +39,7 @@ const ReactTable: React.FC<ReactTableProps> = ({
 }) => {
     const { data: issues, totalCount } = data;
 
-    const columns = React.useMemo<ColumnDef<Issue>[]>(
+    const columns = useMemo<ColumnDef<Issue>[]>(
         () => [
             {
                 header: TableHeaders.ISSUE,
@@ -142,14 +142,7 @@ const ReactTable: React.FC<ReactTableProps> = ({
                     </Table>
                 </TableContainer>
             </Box>
-            <Box
-                display="flex"
-                // border="1px"
-                justifyContent="flex-end"
-                mt="5"
-                pt="5"
-                pb="5"
-            >
+            <Box display="flex" justifyContent="flex-end" mt="5" pt="5" pb="5">
                 <RowCountSelector
                     itemsPerPage={itemsPerPage}
                     handleItemsPerPageChange={handleItemsPerPageChange}
@@ -166,34 +159,3 @@ const ReactTable: React.FC<ReactTableProps> = ({
 };
 
 export default ReactTable;
-
-// <div>
-//                 <label>
-//                     Items per page:{' '}
-//                     <select
-//                         value={itemsPerPage}
-//                         onChange={e =>
-//                             handleItemsPerPageChange(parseInt(e.target.value))
-//                         }
-//                     >
-//                         <option value="5">5</option>
-//                         <option value="10">10</option>
-//                         <option value="25">25</option>
-//                         <option value="50">50</option>
-//                         <option value="100">100</option>
-//                     </select>
-//                 </label>
-//             </div>
-//             <div>
-//                 <button
-//                     onClick={() => handlePageChange(currentPage - 1)}
-//                     disabled={currentPage === 1}
-//                 >
-//                     Previous
-//                 </button>
-//                 <span>Page {currentPage}</span>
-//                 {renderPageButtons()}
-//                 <button onClick={() => handlePageChange(currentPage + 1)}>
-//                     Next
-//                 </button>
-//             </div>

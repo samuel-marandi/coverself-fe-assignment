@@ -1,4 +1,4 @@
-// Defining the types used with ReactTable here. These types are not used anywhere else in the application.
+// Defining the types used with ReactTable here. These types are not used anywhere else.
 
 import { Issue } from '../../utils/types/issueTypes';
 

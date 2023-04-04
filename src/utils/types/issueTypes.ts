@@ -1,3 +1,5 @@
+// Defining the issue types here, since they are used in multiple places.
+
 import { IssueStatus } from '../enums/status';
 
 export interface Issue {

@@ -1,5 +1,3 @@
-// src/components/RowCountSelector.tsx
-
 import React from 'react';
 import { Title } from '../../utils/enums/labels';
 import {
@@ -12,7 +10,7 @@ import {
     Button,
 } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
-import { PageSize, RowCountSelectorProps } from './types';
+import { RowSize, RowCountSelectorProps } from './types';
 
 const RowCountSelector: React.FC<RowCountSelectorProps> = ({
     itemsPerPage,
@@ -42,7 +40,7 @@ const RowCountSelector: React.FC<RowCountSelectorProps> = ({
                             {itemsPerPage}
                         </MenuButton>
                         <MenuList>
-                            {PageSize.map(size => (
+                            {RowSize.map(size => (
                                 <MenuItem
                                     key={size} // providing size as here since they are all unique anyway
                                     bg={
@@ -62,49 +60,8 @@ const RowCountSelector: React.FC<RowCountSelectorProps> = ({
                     </>
                 )}
             </Menu>
-            {/* <Select
-                width="80px"
-                cursor="pointer"
-                value={itemsPerPage}
-                onChange={e =>
-                    handleItemsPerPageChange(parseInt(e.target.value))
-                }
-            >
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="25">25</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-            </Select> */}
         </Box>
     );
 };
 
 export default RowCountSelector;
-
-// <select
-//                     value={itemsPerPage}
-//                     onChange={e =>
-//                         handleItemsPerPageChange(parseInt(e.target.value))
-//                     }
-//                 >
-//                     <option value="5">5</option>
-//                     <option value="10">10</option>
-//                     <option value="25">25</option>
-//                     <option value="50">50</option>
-//                     <option value="100">100</option>
-//                 </select>
-{
-    /* <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-                        Actions
-                    </MenuButton> */
-}
-{
-    /* <MenuList>
-                        <MenuItem value="5">5</MenuItem>
-                        <MenuItem value="10">10</MenuItem>
-                        <MenuItem value="25">25</MenuItem>
-                        <MenuItem value="50">50</MenuItem>
-                        <MenuItem value="100">100</MenuItem>
-                    </MenuList> */
-}

@@ -1,5 +1,3 @@
-// src/components/IssuesList.tsx
-
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Spinner, Text } from '@chakra-ui/react';
