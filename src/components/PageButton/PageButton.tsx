@@ -17,21 +17,38 @@ const PageButton: React.FC<PageButtonProps> = ({
     totalCount,
     handlePageChange,
 }) => {
-    // Add this function inside your ReactTable component
+    const shouldDisplayPageButton = (
+        pageIndex: number,
+        currentPage: number,
+        visibleRange: number,
+        totalPages: number
+    ) => {
+        const isStartOrEnd = pageIndex === 1 || pageIndex === totalPages;
+        const isInRange =
+            pageIndex >= currentPage - visibleRange / 2 &&
+            pageIndex <= currentPage + visibleRange / 2;
+        const shouldDisplay = isStartOrEnd || isInRange;
+
+        return shouldDisplay;
+    };
+
     const renderPageButtons = () => {
         const totalPages = Math.ceil(totalCount / itemsPerPage);
-        const pageButtons = [];
 
-        const visibleRange = 4; // Change this value to control the number of visible page buttons
+        const pageButtons: JSX.Element[] = [];
+
+        // Change this value to control the number of visible page buttons
+        const visibleRange = 4;
 
         let lastButtonIndex = 0;
 
         for (let i = 1; i <= totalPages; i++) {
-            const shouldDisplay =
-                i === 1 ||
-                i === totalPages ||
-                (i >= currentPage - visibleRange / 2 &&
-                    i <= currentPage + visibleRange / 2);
+            const shouldDisplay = shouldDisplayPageButton(
+                i,
+                currentPage,
+                visibleRange,
+                totalPages
+            );
 
             if (shouldDisplay) {
                 // Add "..." before the current button if it's not adjacent to the last visible button
@@ -81,41 +98,3 @@ const PageButton: React.FC<PageButtonProps> = ({
 };
 
 export default PageButton;
-
-{
-    /* <span>Page {currentPage}</span> */
-    // const renderButton = (key, pageNumber, isActive, onClick) => (
-    //     <button
-    //         key={key}
-    //         style={{
-    //             backgroundColor: isActive ? 'blue' : 'white',
-    //             color: isActive ? 'white' : 'black',
-    //         }}
-    //         onClick={onClick}
-    //     >
-    //         {pageNumber}
-    //     </button>
-    // );
-    // pageButtons.push(
-    //     <PageButton
-    //         key={i}
-    //         pageNumber={i}
-    //         isActive={i === currentPage}
-    //         onClick={() => handlePageChange(i)}
-    //     />
-    // );
-    // <button onClick={() => handlePageChange(currentPage + 1)}>
-    //             Next
-    //         </button>
-    // <button
-    //             onClick={() => handlePageChange(currentPage - 1)}
-    //             disabled={currentPage === 1}
-    //         >
-    //             Previous
-    //         </button>
-    // style={{
-    // backgroundColor:
-    // i === currentPage ? 'blue' : 'white',
-    // color: i === currentPage ? 'white' : 'black',
-    // }}
-}

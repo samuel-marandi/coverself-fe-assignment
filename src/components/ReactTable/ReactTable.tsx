@@ -23,7 +23,6 @@ import { TableHeaders } from '../../utils/enums/labels';
 import PageButton from '../PageButton/PageButton';
 import RowCountSelector from '../RowCountSelector/RowCountSelector';
 import classNames from 'classnames';
-import styles from './ReactTable.scss';
 
 const formattedDate = new Intl.DateTimeFormat('en-US', {
     day: '2-digit',
@@ -99,7 +98,8 @@ const ReactTable: React.FC<ReactTableProps> = ({
     return (
         <Box>
             <Box
-                className="container-table"
+                pl="2"
+                pr="2"
                 borderWidth="1px"
                 borderRadius="lg"
                 overflow="hidden"
@@ -144,7 +144,7 @@ const ReactTable: React.FC<ReactTableProps> = ({
             </Box>
             <Box
                 display="flex"
-                border="1px"
+                // border="1px"
                 justifyContent="flex-end"
                 mt="5"
                 pt="5"

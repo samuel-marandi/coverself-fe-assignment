@@ -2,15 +2,17 @@
 
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Spinner, Text } from '@chakra-ui/react';
 import { RootState } from '../store/rootReducer';
 import { useGetAllIssuesQuery } from '../api/apiClient';
 import {
     setCurrentPage,
     setItemsPerPage,
-    setSortBy,
-    setSortOrder,
+    // setSortBy,
+    // setSortOrder,
 } from '../store/pagination/paginationSlice';
 import ReactTable from '../components/ReactTable/ReactTable';
+import { ApiResponseData } from '../components/ReactTable/types';
 
 const IssuesList: React.FC = () => {
     const dispatch = useDispatch();
@@ -33,14 +35,29 @@ const IssuesList: React.FC = () => {
         dispatch(setItemsPerPage(items));
     };
 
-    if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error.message}</div>;
+    if (isLoading)
+        return (
+            <Spinner
+                thickness="4px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="blue.500"
+                size="xl"
+            />
+        );
+    if (error)
+        return (
+            <Text fontSize="3xl">
+                Oops!!! Something went wrong on our end. Please refresh your
+                page or revisit after sometime
+            </Text>
+        );
 
     return (
         <div>
             {data && (
                 <ReactTable
-                    data={data}
+                    data={data as ApiResponseData}
                     currentPage={currentPage}
                     itemsPerPage={itemsPerPage}
                     onPageChange={handlePageChange}
