@@ -4,12 +4,7 @@ import React from 'react';
 import { IconButton, Button } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import classNames from 'classnames';
-interface PageButtonProps {
-    currentPage: number;
-    itemsPerPage: number;
-    totalCount: number;
-    handlePageChange: (currentPage: number) => void;
-}
+import { PageButtonProps } from './types';
 
 const PageButton: React.FC<PageButtonProps> = ({
     currentPage,

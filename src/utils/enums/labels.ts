@@ -9,3 +9,7 @@ export enum TableHeaders {
 export enum Title {
     TABLE_ROW_SELECTOR = 'Rows per page:',
 }
+
+export enum ErrorMessage {
+    API_FAILURE = 'Oops!!! Something went wrong on our end. Please refresh your page or revisit after sometime',
+}

@@ -1,6 +1,4 @@
-// src/store/user/userTypes.ts
-
-import { IssueStatus } from '../../utils/enums/status';
+import { IssueStatus } from '../enums/status';
 
 export interface Issue {
     id: string;

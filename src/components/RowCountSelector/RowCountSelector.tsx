@@ -12,12 +12,7 @@ import {
     Button,
 } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
-interface RowCountSelectorProps {
-    itemsPerPage: number;
-    handleItemsPerPageChange: (noOfItems: number) => void;
-}
-
-const PageSize = [5, 10, 25, 50, 100];
+import { PageSize, RowCountSelectorProps } from './types';
 
 const RowCountSelector: React.FC<RowCountSelectorProps> = ({
     itemsPerPage,

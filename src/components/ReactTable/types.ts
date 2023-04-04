@@ -1,6 +1,6 @@
 // Defining the types used with ReactTable here. These types are not used anywhere else in the application.
 
-import { Issue } from '../../store/issues/issueTypes';
+import { Issue } from '../../utils/types/issueTypes';
 
 export interface ApiResponseData {
     data: Issue[];

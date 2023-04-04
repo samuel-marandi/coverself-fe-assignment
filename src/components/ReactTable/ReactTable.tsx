@@ -16,7 +16,7 @@ import {
     getCoreRowModel,
     flexRender,
 } from '@tanstack/react-table';
-import { Issue } from '../../store/issues/issueTypes';
+import { Issue } from '../../utils/types/issueTypes';
 import { IssueStatus } from '../../utils/enums/status';
 import { ReactTableProps } from './types';
 import { TableHeaders } from '../../utils/enums/labels';

@@ -13,6 +13,7 @@ import {
 } from '../store/pagination/paginationSlice';
 import ReactTable from '../components/ReactTable/ReactTable';
 import { ApiResponseData } from '../components/ReactTable/types';
+import { ErrorMessage } from '../utils/enums/labels';
 
 const IssuesList: React.FC = () => {
     const dispatch = useDispatch();
@@ -45,13 +46,7 @@ const IssuesList: React.FC = () => {
                 size="xl"
             />
         );
-    if (error)
-        return (
-            <Text fontSize="3xl">
-                Oops!!! Something went wrong on our end. Please refresh your
-                page or revisit after sometime
-            </Text>
-        );
+    if (error) return <Text fontSize="3xl">{ErrorMessage.API_FAILURE}</Text>;
 
     return (
         <div>
