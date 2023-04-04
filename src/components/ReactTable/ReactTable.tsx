@@ -1,29 +1,35 @@
 import React from 'react';
 import {
-    ColumnDef,
-    RowModel,
+    Box,
+    Badge,
+    TableContainer,
     Table,
+    Thead,
+    Tbody,
+    Tr,
+    Th,
+    Td,
+} from '@chakra-ui/react';
+import {
+    ColumnDef,
     useReactTable,
     getCoreRowModel,
     flexRender,
-    PaginationState,
-    getPaginationRowModel,
 } from '@tanstack/react-table';
 import { Issue } from '../../store/issues/issueTypes';
+import { IssueStatus } from '../../utils/enums/status';
+import { ReactTableProps } from './types';
+import { TableHeaders } from '../../utils/enums/labels';
 import PageButton from '../PageButton/PageButton';
+import RowCountSelector from '../RowCountSelector/RowCountSelector';
+import classNames from 'classnames';
+import styles from './ReactTable.scss';
 
-interface ApiResponseData {
-    data: Issue[];
-    totalCount: number;
-}
-
-interface ReactTableProps {
-    data: ApiResponseData;
-    currentPage: number;
-    itemsPerPage: number;
-    onPageChange: (page: number) => void;
-    onItemsPerPageChange: (itemsPerPage: number) => void;
-}
+const formattedDate = new Intl.DateTimeFormat('en-US', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+});
 
 const ReactTable: React.FC<ReactTableProps> = ({
     data,
@@ -34,29 +40,42 @@ const ReactTable: React.FC<ReactTableProps> = ({
 }) => {
     const { data: issues, totalCount } = data;
 
-    console.log({ issues, totalCount });
-
     const columns = React.useMemo<ColumnDef<Issue>[]>(
         () => [
             {
-                header: 'Issue',
+                header: TableHeaders.ISSUE,
                 accessorKey: 'title',
             },
             {
-                header: 'Short Description',
+                header: TableHeaders.DESCRIPTION,
                 accessorKey: 'description',
             },
             {
-                header: 'Assigned To',
+                header: TableHeaders.ASSIGNED_TO,
                 accessorKey: 'assignedTo',
             },
             {
-                header: 'Due Date',
+                header: TableHeaders.DUE_DATE,
                 accessorKey: 'dueDate',
+                cell: ({ row }) =>
+                    formattedDate.format(new Date(row.original.dueDate)),
             },
             {
-                header: 'Status',
+                header: TableHeaders.STATUS,
                 accessorKey: 'status',
+                cell: ({ row }) => (
+                    <Badge
+                        colorScheme={classNames({
+                            green:
+                                row.original.status === IssueStatus.COMPLETED,
+                            yellow:
+                                row.original.status === IssueStatus.IN_PROGRESS,
+                            gray: row.original.status === IssueStatus.TODO,
+                        })}
+                    >
+                        {row.original.status}
+                    </Badge>
+                ),
             },
         ],
         []
@@ -66,13 +85,6 @@ const ReactTable: React.FC<ReactTableProps> = ({
         data: issues,
         columns,
         getCoreRowModel: getCoreRowModel(),
-        // pageCount: data?.pageCount ?? -1,
-        // state: {
-        //     pagination,
-        // },
-        // onPaginationChange: setPagination,
-        // manualPagination: true,
-        // debugTable: true,
     });
 
     const handlePageChange = (page: number) => {
@@ -84,111 +96,104 @@ const ReactTable: React.FC<ReactTableProps> = ({
         onPageChange(1);
     };
 
-    // Add this function inside your ReactTable component
-    const renderPageButtons = () => {
-        const totalPages = Math.ceil(totalCount / itemsPerPage);
-        const pageButtons = [];
-
-        const visibleRange = 4; // Change this value to control the number of visible page buttons
-
-        let lastButtonIndex = 0;
-
-        for (let i = 1; i <= totalPages; i++) {
-            const shouldDisplay =
-                i === 1 ||
-                i === totalPages ||
-                (i >= currentPage - visibleRange / 2 &&
-                    i <= currentPage + visibleRange / 2);
-
-            if (shouldDisplay) {
-                // Add "..." before the current button if it's not adjacent to the last visible button
-                if (lastButtonIndex !== 0 && i !== lastButtonIndex + 1) {
-                    pageButtons.push(<span key={`ellipsis-${i}`}>...</span>);
-                }
-
-                pageButtons.push(
-                    <PageButton
-                        key={i}
-                        pageNumber={i}
-                        isActive={i === currentPage}
-                        onClick={() => handlePageChange(i)}
-                    />
-                );
-
-                lastButtonIndex = i;
-            }
-        }
-
-        return pageButtons;
-    };
-
     return (
-        <div>
-            <table>
-                <thead>
-                    {table.getHeaderGroups().map(headerGroup => (
-                        <tr key={headerGroup.id}>
-                            {headerGroup.headers.map(header => (
-                                <th key={header.id}>
-                                    {flexRender(
-                                        header.column.columnDef.header,
-                                        header.getContext()
-                                    )}
-                                </th>
-                            ))}
-                        </tr>
-                    ))}
-                </thead>
-                <tbody>
-                    {table.getRowModel().rows.map(row => {
-                        return (
-                            <tr key={row.id}>
-                                {row.getVisibleCells().map(cell => {
-                                    return (
-                                        <td key={cell.id}>
+        <Box>
+            <Box
+                className="container-table"
+                borderWidth="1px"
+                borderRadius="lg"
+                overflow="hidden"
+            >
+                <TableContainer>
+                    <Table size="md" variant="simple">
+                        <Thead>
+                            {table.getHeaderGroups().map(headerGroup => (
+                                <Tr key={headerGroup.id}>
+                                    {headerGroup.headers.map(header => (
+                                        <Th key={header.id}>
                                             {flexRender(
-                                                cell.column.columnDef.cell,
-                                                cell.getContext()
+                                                header.column.columnDef.header,
+                                                header.getContext()
                                             )}
-                                        </td>
-                                    );
-                                })}
-                            </tr>
-                        );
-                    })}
-                </tbody>
-            </table>
-            <div>
-                <label>
-                    Items per page:{' '}
-                    <select
-                        value={itemsPerPage}
-                        onChange={e =>
-                            handleItemsPerPageChange(parseInt(e.target.value))
-                        }
-                    >
-                        <option value="10">10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    </select>
-                </label>
-            </div>
-            <div>
-                <button
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                >
-                    Previous
-                </button>
-                <span>Page {currentPage}</span>
-                {renderPageButtons()}
-                <button onClick={() => handlePageChange(currentPage + 1)}>
-                    Next
-                </button>
-            </div>
-        </div>
+                                        </Th>
+                                    ))}
+                                </Tr>
+                            ))}
+                        </Thead>
+                        <Tbody>
+                            {table.getRowModel().rows.map(row => {
+                                return (
+                                    <Tr key={row.id}>
+                                        {row.getVisibleCells().map(cell => {
+                                            return (
+                                                <Td key={cell.id}>
+                                                    {flexRender(
+                                                        cell.column.columnDef
+                                                            .cell,
+                                                        cell.getContext()
+                                                    )}
+                                                </Td>
+                                            );
+                                        })}
+                                    </Tr>
+                                );
+                            })}
+                        </Tbody>
+                    </Table>
+                </TableContainer>
+            </Box>
+            <Box
+                display="flex"
+                border="1px"
+                justifyContent="flex-end"
+                mt="5"
+                pt="5"
+                pb="5"
+            >
+                <RowCountSelector
+                    itemsPerPage={itemsPerPage}
+                    handleItemsPerPageChange={handleItemsPerPageChange}
+                />
+                <PageButton
+                    currentPage={currentPage}
+                    itemsPerPage={itemsPerPage}
+                    totalCount={totalCount}
+                    handlePageChange={handlePageChange}
+                />
+            </Box>
+        </Box>
     );
 };
 
 export default ReactTable;
+
+// <div>
+//                 <label>
+//                     Items per page:{' '}
+//                     <select
+//                         value={itemsPerPage}
+//                         onChange={e =>
+//                             handleItemsPerPageChange(parseInt(e.target.value))
+//                         }
+//                     >
+//                         <option value="5">5</option>
+//                         <option value="10">10</option>
+//                         <option value="25">25</option>
+//                         <option value="50">50</option>
+//                         <option value="100">100</option>
+//                     </select>
+//                 </label>
+//             </div>
+//             <div>
+//                 <button
+//                     onClick={() => handlePageChange(currentPage - 1)}
+//                     disabled={currentPage === 1}
+//                 >
+//                     Previous
+//                 </button>
+//                 <span>Page {currentPage}</span>
+//                 {renderPageButtons()}
+//                 <button onClick={() => handlePageChange(currentPage + 1)}>
+//                     Next
+//                 </button>
+//             </div>
