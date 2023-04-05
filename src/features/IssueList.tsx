@@ -1,3 +1,6 @@
+// This component is a container which handles data fetching and error management.
+// React-Table is the presentation component which implements @tanstack/react-table to display the data.
+
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Spinner, Text } from '@chakra-ui/react';
