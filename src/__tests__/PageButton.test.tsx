@@ -19,6 +19,38 @@ describe('PageButton', () => {
         expect(pageButtons.length).toEqual(6);
     });
 
+    it('displays the correct number of page buttons when the last button is selected', () => {
+        const { container } = render(
+            <PageButton
+                currentPage={10}
+                itemsPerPage={10}
+                totalCount={100}
+                handlePageChange={() => {
+                    /* empty */
+                }}
+            />
+        );
+        const pageButtons = container.querySelectorAll('button');
+
+        expect(pageButtons.length).toEqual(6);
+    });
+
+    it('displays the correct number of page buttons when a middle button is selected', () => {
+        const { container } = render(
+            <PageButton
+                currentPage={5}
+                itemsPerPage={10}
+                totalCount={100}
+                handlePageChange={() => {
+                    /* empty */
+                }}
+            />
+        );
+        const pageButtons = container.querySelectorAll('button');
+
+        expect(pageButtons.length).toEqual(9);
+    });
+
     it('calls the handlePageChange function when a page button is clicked', () => {
         const handlePageChangeMock = jest.fn();
         const { getByText } = render(
